@@ -1,4 +1,4 @@
-let combHtml=``;
+let combHtml = ``;
 products.forEach((product) => {
     combHtml += `
     <div class="product-container">
@@ -21,7 +21,7 @@ products.forEach((product) => {
             <div class="product-rating-count link-primary">${product.rating.count}</div>
         </div>
 
-        <div class="product-price">$${(product.priceCents/100).toFixed(2)}</div>
+        <div class="product-price">$${(product.priceCents / 100).toFixed(2)}</div>
 
         <div class="product-quantity-container">
             <select>
@@ -45,19 +45,60 @@ products.forEach((product) => {
             Added
         </div>
 
-        <button class="add-to-cart-button button-primary">Add to Cart</button>
+        <button class="add-to-cart-button button-primary"
+
+        data-id="${product.id}"
+        data-name="${product.name}"
+        data-price="${(product.priceCents / 100).toFixed(2)}"
+        data-image="${product.image}"
+
+        
+        >Add to Cart</button>
     </div>`;
-}); 
-document.querySelector('.products').innerHTML=combHtml;
+});
+document.querySelector('.products').innerHTML = combHtml;
+
+
 document.querySelectorAll('.add-to-cart-button')
-.forEach((but) => {
-    but.addEventListener('click',()=>{
-        console.log('button pressed');
+    .forEach((button) => {
+        button.addEventListener('click', () => {
+            let cartNumber;
+            cartNumber = Number(document.querySelector('.cart-quantity').innerHTML) + 1;
+            document.querySelector('.cart-quantity').innerHTML = cartNumber;
+
+            let boo;
+            cart.forEach((item) => {
+                if (item.id === button.dataset.id) {
+                    boo = item;
+                }
+            });
+
+            if (boo) {
+                boo.quantity += 1;
+            }
+            else {
+                cart.push({
+                    id: button.dataset.id,
+                    name: button.dataset.name,
+                    price: button.dataset.price,
+                    image: button.dataset.image,
+                    quantity: 1
+                })
+            }
+        });
+
     });
 
-    but.addEventListener('click',()=>{
-        document.querySelectorAll('.added-to-cart').innerHTML='<p>hi</p>';
-        
-    })
-    
-});
+
+
+
+
+
+
+
+
+
+
+
+
+
