@@ -1,5 +1,6 @@
 import { products } from "../data/products.js";
-import { cart, addProductToCart } from "./cart.js";
+import { addProductToCart } from "./cart.js";
+import { money } from "../shared/utils.js";
 
 let combHtml = ``;
 products.forEach((product) => {
@@ -24,7 +25,7 @@ products.forEach((product) => {
             <div class="product-rating-count link-primary">${product.rating.count}</div>
         </div>
 
-        <div class="product-price">$${(product.priceCents / 100).toFixed(2)}</div>
+        <div class="product-price">$${money(product.priceCents)}</div>
 
         <div class="product-quantity-container">
             <select>
@@ -51,7 +52,7 @@ products.forEach((product) => {
         <button class="add-to-cart-button button-primary"
 
         data-id="${product.id}"
-        
+
         >Add to Cart</button>
     </div>`;
 });

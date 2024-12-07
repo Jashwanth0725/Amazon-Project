@@ -1,7 +1,7 @@
 export const cart = [
     {
         id: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
-        quantity: 1
+        quantity: 2
     },
     {
         id: "dd82ca78-a18b-4e2a-9250-31e67412f98d",
