@@ -1,6 +1,7 @@
 import { products } from "../data/products.js";
 import { addProductToCart } from "./cart.js";
 import { money } from "../shared/utils.js";
+import { counting } from "./cart.js";
 
 let combHtml = ``;
 products.forEach((product) => {
@@ -58,18 +59,16 @@ products.forEach((product) => {
 });
 document.querySelector('.products').innerHTML = combHtml;
 
-function counting() {
-    let cartNumber;
-    cartNumber = Number(document.querySelector('.cart-quantity').innerHTML) + 1;
-    document.querySelector('.cart-quantity').innerHTML = cartNumber;
-}
+
 
 document.querySelectorAll('.add-to-cart-button')
     .forEach((button) => {
         button.addEventListener('click', () => {
             counting();
             addProductToCart(button);  //in cart.js file
+            document.querySelector('.cart-quantity').innerHTML = counting();
         });
+
     });
 
 

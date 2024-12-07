@@ -96,11 +96,12 @@ document.querySelectorAll('.delete-quantity-link').
     forEach((product) => {
         product.addEventListener('click', () => {
             const productid = product.dataset.id;
+
             removeProductfromCart(productid);
+
             const reclass = document.querySelector(`.js-cart-item-container-${productid}`);
             reclass.remove();
         })
     })
-
 
 
