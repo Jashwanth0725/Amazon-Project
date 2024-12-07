@@ -51,10 +51,6 @@ products.forEach((product) => {
         <button class="add-to-cart-button button-primary"
 
         data-id="${product.id}"
-        data-name="${product.name}"
-        data-price="${(product.priceCents / 100).toFixed(2)}"
-        data-image="${product.image}"
-
         
         >Add to Cart</button>
     </div>`;
