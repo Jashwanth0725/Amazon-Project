@@ -99,8 +99,11 @@ document.querySelectorAll('.delete-quantity-link').
 
             removeProductfromCart(productid);
 
-            const reclass = document.querySelector(`.js-cart-item-container-${productid}`);
+            const reclass = document.querySelector
+                (`.js-cart-item-container-${productid}`);
             reclass.remove();
+
+
         })
     })
 

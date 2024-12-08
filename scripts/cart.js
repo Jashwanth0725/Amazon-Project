@@ -38,7 +38,7 @@ export function removeProductfromCart(productid) {
 
 export function counting() {
     let count = 0;
-    cart.forEach((cart) => {
+    cart.forEach(() => {
         count++;
     })
     return count;
