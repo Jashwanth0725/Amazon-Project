@@ -87,7 +87,7 @@ function genarate() {
 
 }
 
-//to generate first cart list in html page
+//to generate cart list on html page
 genarate();
 
 
