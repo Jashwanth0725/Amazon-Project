@@ -14,10 +14,24 @@ function genarate() {
     let chtml = ``;
     cart.forEach((cartItem) => {
         products.forEach((product) => {
+
             if (cartItem.id === product.id) {
+
+                let options;
+                delivery.forEach((option) => {
+                    if (option.id === cartItem.deliveryId) {
+                        options = option.days;
+                    }
+                })
+                const today = dayjs();
+                const date = today.add(options, 'days');
+                const dateString = date.format('dddd, MMMM D')
+
+
+
                 chtml += `
                 <div class="cart-item-container js-cart-item-container-${product.id}">
-                    <div class="delivery-date">Delivery date: Tuesday, June 21</div>
+                    <div class="delivery-date">Delivery date: ${dateString} </div>
 
                         <div class="cart-item-details-grid">
                             <img
@@ -47,7 +61,7 @@ function genarate() {
                             </div>
 
                             <div class="delivery-options">
-                                ${deliveryHTML(product.id)}
+                                ${deliveryHTML(product.id, cartItem.deliveryId)}
                             </div>
                         </div>
                 </div>`;
@@ -59,22 +73,28 @@ function genarate() {
 
 
 //to calculate the delivery date and generate html
-function deliveryHTML(productid) {
+function deliveryHTML(productid, cartid) {
     let generateHTML = `<div class="delivery-options-title">
                                 Choose a delivery option:
                             </div>`;
     const today = dayjs();
     delivery.forEach((del) => {
+
+
+        const check = del.id === cartid ? 'checked' : '';
+
+        const price = del.priceCents === 0 ? 'FREE' : `$${money(del.priceCents)} -`;
+
         generateHTML += `
         <div class="delivery-option">
-            <input type="radio"s class="delivery-option-input"
+            <input type="radio"s  ${check} class="delivery-option-input"
                 name="delivery-option-${productid}"/>
             <div>
                 <div class="delivery-option-date">${(today.add(del.days, 'day')).format('dddd, MMM D')}
                 </div>
             
                 <div class="delivery-option-price">
-                $${money(del.priceCents)} - Shipping
+                 ${price} Shipping
                 </div>
             </div>
         </div>
