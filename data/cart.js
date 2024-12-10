@@ -1,24 +1,40 @@
 export let cart = JSON.parse(localStorage.getItem('cart'));
 
+cart = [
+    {
+        id: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
+        quantity: 1,
+        deliveryId: 1
+    },
+    {
+        id: "15b6fc6f-327a-4ec4-896f-486349e85a3d",
+        quantity: 1,
+        deliveryId: 1
+    }
+]
+
 function saveLocalStorage() {
     localStorage.setItem('cart', JSON.stringify(cart));
 }
 
+
+
 export function addProductToCart(button) {
-    let boo;
+    let quantcount;
     cart.forEach((item) => {
         if (item.id === button.dataset.id) {
-            boo = item;
+            quantcount = item;
         }
     });
 
-    if (boo) {
-        boo.quantity += 1;
+    if (quantcount) {
+        quantcount.quantity += 1;
     }
     else {
         cart.push({
             id: button.dataset.id,
-            quantity: 1
+            quantity: 1,
+            deliveryId: 1
         })
     }
     saveLocalStorage();

@@ -1,9 +1,16 @@
 import { products } from "../data/products.js";
-import { cart, quantitycounting, removeProductfromCart } from "./cart.js";
+import { cart, quantitycounting, removeProductfromCart } from "../data/cart.js";
 import { money } from "../shared/utils.js";
+import { delivery } from "../data/delivery.js";
+import dayjs from "https://unpkg.com/dayjs@1.11.10/esm/index.js";
+
+//Default Checkout Page of  Amazon
+genarate();
+
 
 //to add the products from cart array to check out page
 function genarate() {
+    checkoutHeader();
     let chtml = ``;
     cart.forEach((cartItem) => {
         products.forEach((product) => {
@@ -40,43 +47,7 @@ function genarate() {
                             </div>
 
                             <div class="delivery-options">
-                            <div class="delivery-options-title">
-                                Choose a delivery option:
-                            </div>
-                            <div class="delivery-option">
-                                <input
-                                type="radio"
-                                checked
-                                class="delivery-option-input"
-                                name="delivery-option-${product.id}"
-                                />
-                                <div>
-                                <div class="delivery-option-date">Tuesday, June 21</div>
-                                <div class="delivery-option-price">FREE Shipping</div>
-                                </div>
-                            </div>
-                            <div class="delivery-option">
-                                <input
-                                type="radio"
-                                class="delivery-option-input"
-                                name="delivery-option-${product.id}"
-                                />
-                                <div>
-                                <div class="delivery-option-date">Wednesday, June 15</div>
-                                <div class="delivery-option-price">$4.99 - Shipping</div>
-                                </div>
-                            </div>
-                            <div class="delivery-option">
-                                <input
-                                type="radio"s
-                                class="delivery-option-input"
-                                name="delivery-option-${product.id}"
-                                />
-                                <div>
-                                <div class="delivery-option-date">Monday, June 13</div>
-                                <div class="delivery-option-price">$9.99 - Shipping</div>
-                                </div>
-                            </div>
+                                ${deliveryHTML(product.id)}
                             </div>
                         </div>
                 </div>`;
@@ -84,13 +55,37 @@ function genarate() {
         })
     })
     document.querySelector('.order-summary').innerHTML = chtml;
-
 }
 
-//Default Checkout Page of  Amazon
-genarate();
 
+//to calculate the delivery date and generate html
+function deliveryHTML(productid) {
+    let generateHTML = `<div class="delivery-options-title">
+                                Choose a delivery option:
+                            </div>`;
+    const today = dayjs();
+    delivery.forEach((del) => {
+        generateHTML += `
+        <div class="delivery-option">
+            <input type="radio"s class="delivery-option-input"
+                name="delivery-option-${productid}"/>
+            <div>
+                <div class="delivery-option-date">${(today.add(del.days, 'day')).format('dddd, MMM D')}
+                </div>
+            
+                <div class="delivery-option-price">
+                $${money(del.priceCents)} - Shipping
+                </div>
+            </div>
+        </div>
+        `})
+    return generateHTML;
+}
 
+//to count and store qunantity on checkout header
+function checkoutHeader() {
+    document.querySelector('.checkout-header-middle-section').innerHTML = `Checkout (<a class="return-to-home-link" href="amazon.html">${quantitycounting()} items</a>)`;
+}
 
 //to remove a product element in cart array
 document.querySelectorAll('.delete-quantity-link').
@@ -103,5 +98,6 @@ document.querySelectorAll('.delete-quantity-link').
             const reclass = document.querySelector
                 (`.js-cart-item-container-${productid}`);
             reclass.remove();
+            genarate();
         })
     })

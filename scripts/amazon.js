@@ -1,5 +1,5 @@
 import { products } from "../data/products.js";
-import { addProductToCart, quantitycounting } from "./cart.js";
+import { addProductToCart, quantitycounting } from "../data/cart.js";
 import { money } from "../shared/utils.js";
 
 let combHtml = ``;
