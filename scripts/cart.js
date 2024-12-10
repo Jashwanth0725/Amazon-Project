@@ -36,10 +36,10 @@ export function removeProductfromCart(productid) {
     saveLocalStorage();
 }
 
-export function counting() {
+export function quantitycounting() {
     let count = 0;
-    cart.forEach(() => {
-        count++;
+    cart.forEach((item) => {
+        count += item.quantity;
     })
     return count;
 }

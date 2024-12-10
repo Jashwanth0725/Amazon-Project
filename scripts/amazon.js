@@ -1,7 +1,6 @@
 import { products } from "../data/products.js";
-import { addProductToCart } from "./cart.js";
+import { addProductToCart, quantitycounting } from "./cart.js";
 import { money } from "../shared/utils.js";
-import { counting } from "./cart.js";
 
 let combHtml = ``;
 products.forEach((product) => {
@@ -57,30 +56,19 @@ products.forEach((product) => {
         >Add to Cart</button>
     </div>`;
 });
+
+//Default first page of Amazon
 document.querySelector('.products').innerHTML = combHtml;
+document.querySelector('.cart-quantity').innerHTML = quantitycounting();
 
 
 
 document.querySelectorAll('.add-to-cart-button')
     .forEach((button) => {
         button.addEventListener('click', () => {
-            counting();
             addProductToCart(button);  //in cart.js file
-            document.querySelector('.cart-quantity').innerHTML = counting();
+            document.querySelector('.cart-quantity').innerHTML = quantitycounting();
         });
 
     });
-
-
-
-
-
-
-
-
-
-
-
-
-
 

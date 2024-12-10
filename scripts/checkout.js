@@ -1,5 +1,5 @@
 import { products } from "../data/products.js";
-import { cart, removeProductfromCart } from "./cart.js";
+import { cart, quantitycounting, removeProductfromCart } from "./cart.js";
 import { money } from "../shared/utils.js";
 
 //to add the products from cart array to check out page
@@ -87,8 +87,9 @@ function genarate() {
 
 }
 
-//to generate cart list on html page
+//Default Checkout Page of  Amazon
 genarate();
+
 
 
 //to remove a product element in cart array
@@ -102,9 +103,5 @@ document.querySelectorAll('.delete-quantity-link').
             const reclass = document.querySelector
                 (`.js-cart-item-container-${productid}`);
             reclass.remove();
-
-
         })
     })
-
-
