@@ -25,13 +25,14 @@ function genarate() {
                 })
                 const today = dayjs();
                 const date = today.add(options, 'days');
-                const dateString = date.format('dddd, MMMM D')
+                const dateString = date.format('dddd, MMMM D');
 
 
 
                 chtml += `
                 <div class="cart-item-container js-cart-item-container-${product.id}">
-                    <div class="delivery-date">Delivery date: ${dateString} </div>
+                    <div class="delivery-date">
+                    <div class="delivery-date-${cartItem.id}">Delivery date: ${dateString} </div></div>
 
                         <div class="cart-item-details-grid">
                             <img
@@ -69,6 +70,7 @@ function genarate() {
         })
     })
     document.querySelector('.order-summary').innerHTML = chtml;
+    bind();
 }
 
 
@@ -86,9 +88,10 @@ function deliveryHTML(productid, cartid) {
         const price = del.priceCents === 0 ? 'FREE' : `$${money(del.priceCents)} -`;
 
         generateHTML += `
-        <div class="delivery-option">
+        <div class="delivery-option" data-deliveryid="${del.id}" data-productid="${productid}">
+        
             <input type="radio"s  ${check} class="delivery-option-input"
-                name="delivery-option-${productid}"/>
+                name="delivery-option-${productid}" />
             <div>
                 <div class="delivery-option-date">${(today.add(del.days, 'day')).format('dddd, MMM D')}
                 </div>
@@ -98,7 +101,10 @@ function deliveryHTML(productid, cartid) {
                 </div>
             </div>
         </div>
-        `})
+        `
+        //console.log(del.id);
+    })
+
     return generateHTML;
 }
 
@@ -107,17 +113,54 @@ function checkoutHeader() {
     document.querySelector('.checkout-header-middle-section').innerHTML = `Checkout (<a class="return-to-home-link" href="amazon.html">${quantitycounting()} items</a>)`;
 }
 
-//to remove a product element in cart array
-document.querySelectorAll('.delete-quantity-link').
-    forEach((product) => {
-        product.addEventListener('click', () => {
-            const productid = product.dataset.id;
 
-            removeProductfromCart(productid);
+function bind() {
+    //to remove a product element in cart array
+    document.querySelectorAll('.delete-quantity-link').
+        forEach((product) => {
+            product.addEventListener('click', () => {
+                const productid = product.dataset.id;
 
-            const reclass = document.querySelector
-                (`.js-cart-item-container-${productid}`);
-            reclass.remove();
-            genarate();
+                removeProductfromCart(productid);
+
+                const reclass = document.querySelector
+                    (`.js-cart-item-container-${productid}`);
+                reclass.remove();
+                genarate();
+            })
         })
-    })
+
+
+    // for changing date on delivery date on click
+    document.querySelectorAll('.delivery-option')
+        .forEach((option) => {
+
+            option.addEventListener('click', () => {
+
+                const radio = option.querySelector('.delivery-option-input');
+                radio.checked = true;
+
+                const productid = option.dataset.productid;
+                const deliveryid = option.dataset.deliveryid;
+                cart.forEach((cart) => {
+                    if (productid === cart.id) {
+                        cart.deliveryId = parseInt(deliveryid);
+
+                        let options;
+                        delivery.forEach((option) => {
+                            if (option.id === cart.deliveryId) {
+                                options = option.days;
+                            }
+                        })
+                        const today = dayjs();
+                        const date = today.add(options, 'days');
+                        const dateString = date.format('dddd, MMMM D');
+                        document.querySelector(`.delivery-date-${cart.id}`).innerHTML = `Delivery date: ${dateString}`;
+                    }
+
+
+
+                })
+            })
+        })
+}
