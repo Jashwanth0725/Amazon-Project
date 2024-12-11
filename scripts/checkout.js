@@ -70,7 +70,9 @@ function genarate() {
         })
     })
     document.querySelector('.order-summary').innerHTML = chtml;
+    orderSummary();
     bind();
+
 }
 
 
@@ -102,7 +104,6 @@ function deliveryHTML(productid, cartid) {
             </div>
         </div>
         `
-        //console.log(del.id);
     })
 
     return generateHTML;
@@ -114,6 +115,62 @@ function checkoutHeader() {
 }
 
 
+//to update the price details on right side
+function orderSummary() {
+
+    let allPrice = 0;
+    let shipping = 0;
+    cart.forEach((cart) => {
+        products.forEach((product) => {
+            if (cart.id === product.id) {
+                allPrice += product.priceCents * cart.quantity;
+            }
+        })
+
+        delivery.forEach((delivery) => {
+            if (cart.deliveryId === delivery.id) {
+                shipping += delivery.priceCents;
+            }
+        })
+
+    })
+    let beforetax = allPrice + shipping;
+    allPrice = money(allPrice);
+    shipping = money(shipping);
+    beforetax = money(beforetax);
+    const aftertax = (beforetax / 10).toFixed(2);
+    const total = Number(beforetax) + Number(aftertax);
+
+    document.querySelector('.payment-details').innerHTML = `
+        <div class="payment-summary-row">
+              <div>Items (${quantitycounting()}):</div>
+              <div class="payment-summary-money">$${allPrice}</div>
+            </div >
+
+            <div class="payment-summary-row">
+              <div>Shipping &amp; handling:</div>
+              <div class="payment-summary-money">$${shipping}</div>
+            </div>
+
+            <div class="payment-summary-row subtotal-row">
+              <div>Total before tax:</div>
+              <div class="payment-summary-money">$${beforetax}</div>
+            </div>
+
+            <div class="payment-summary-row">
+              <div>Estimated tax (10%):</div>
+              <div class="payment-summary-money">$${aftertax}</div>
+            </div>
+
+            <div class="payment-summary-row total-row">
+              <div>Order total:</div>
+              <div class="payment-summary-money">$${total}</div>
+            </div>
+        `;
+}
+
+
+//Every event listener in check out page
 function bind() {
     //to remove a product element in cart array
     document.querySelectorAll('.delete-quantity-link').
@@ -134,16 +191,15 @@ function bind() {
     // for changing date on delivery date on click
     document.querySelectorAll('.delivery-option')
         .forEach((option) => {
-
             option.addEventListener('click', () => {
-
                 const radio = option.querySelector('.delivery-option-input');
                 radio.checked = true;
-
                 const productid = option.dataset.productid;
                 const deliveryid = option.dataset.deliveryid;
                 cart.forEach((cart) => {
                     if (productid === cart.id) {
+
+                        // adding updated delivery-id in cart
                         cart.deliveryId = parseInt(deliveryid);
 
                         let options;
@@ -155,12 +211,14 @@ function bind() {
                         const today = dayjs();
                         const date = today.add(options, 'days');
                         const dateString = date.format('dddd, MMMM D');
+
+                        //updating the delivery date
                         document.querySelector(`.delivery-date-${cart.id}`).innerHTML = `Delivery date: ${dateString}`;
                     }
-
-
-
                 })
+                genarate();
             })
         })
 }
+
+
