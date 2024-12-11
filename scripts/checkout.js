@@ -70,7 +70,7 @@ function genarate() {
         })
     })
     document.querySelector('.order-summary').innerHTML = chtml;
-    orderSummary();
+    priceSummary();
     bind();
 
 }
@@ -116,7 +116,7 @@ function checkoutHeader() {
 
 
 //to update the price details on right side
-function orderSummary() {
+function priceSummary() {
 
     let allPrice = 0;
     let shipping = 0;
@@ -138,7 +138,7 @@ function orderSummary() {
     allPrice = money(allPrice);
     shipping = money(shipping);
     beforetax = money(beforetax);
-    const aftertax = (beforetax / 10).toFixed(2);
+    const aftertax = (beforetax * 0.1).toFixed(2);
     const total = Number(beforetax) + Number(aftertax);
 
     document.querySelector('.payment-details').innerHTML = `
@@ -216,7 +216,8 @@ function bind() {
                         document.querySelector(`.delivery-date-${cart.id}`).innerHTML = `Delivery date: ${dateString}`;
                     }
                 })
-                genarate();
+                priceSummary()
+
             })
         })
 }
