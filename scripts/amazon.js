@@ -54,6 +54,7 @@ products.forEach((product) => {
         data-id="${product.id}"
 
         >Add to Cart</button>
+        
     </div>`;
 });
 

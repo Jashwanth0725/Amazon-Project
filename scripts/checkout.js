@@ -139,7 +139,7 @@ function priceSummary() {
     shipping = money(shipping);
     beforetax = money(beforetax);
     const aftertax = (beforetax * 0.1).toFixed(2);
-    const total = Number(beforetax) + Number(aftertax);
+    const total = (Number(beforetax) + Number(aftertax)).toFixed(2);
 
     document.querySelector('.payment-details').innerHTML = `
         <div class="payment-summary-row">
