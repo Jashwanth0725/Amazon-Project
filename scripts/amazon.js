@@ -67,7 +67,8 @@ document.querySelector('.cart-quantity').innerHTML = quantitycounting();
 document.querySelectorAll('.add-to-cart-button')
     .forEach((button) => {
         button.addEventListener('click', () => {
-            addProductToCart(button);  //in cart.js file
+            const productid = button.dataset.id;
+            addProductToCart(productid);  //in cart.js file
             document.querySelector('.cart-quantity').innerHTML = quantitycounting();
         });
 
