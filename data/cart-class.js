@@ -72,19 +72,3 @@ class Cart {
         return count;
     }
 }
-
-
-const cart = new Cart('customer');
-const bussiess = new Cart('bus');
-
-
-console.log(cart);
-console.log(bussiess);
-
-console.log("iam in customer local storage");
-
-
-
-
-//cart.addProductToCart("83d4ca15-0f35-48f5-b7a3-1ea210004f2e");
-//cart.removeProductfromCart("83d4ca15-0f35-48f5-b7a3-1ea210004f2e");

@@ -20,12 +20,12 @@ products.forEach((product) => {
         <div class="product-rating-container">
             <img
               class="product-rating-stars"
-              src="images/ratings/rating-${product.rating.stars * 10}.png"
-            />
-            <div class="product-rating-count link-primary">${product.rating.count}</div>
-        </div>
+              src="${product.getStar()}"
+    />
+    <div class="product-rating-count link-primary">${product.rating.count}</div>
+        </div >
 
-        <div class="product-price">$${money(product.priceCents)}</div>
+        <div class="product-price">$${product.getPrice()}</div>
 
         <div class="product-quantity-container">
             <select>
@@ -55,7 +55,7 @@ products.forEach((product) => {
 
         >Add to Cart</button>
         
-    </div>`;
+    </div > `;
 });
 
 //Default first page of Amazon

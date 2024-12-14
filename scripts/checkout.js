@@ -45,7 +45,7 @@ function genarate() {
                             <div class="product-name">
                                 ${product.name}
                             </div>
-                            <div class="product-price">$${money(product.priceCents)}</div>
+                            <div class="product-price">$${product.getPrice()}</div>
 
                             <div class="product-quantity">
                                 <span> Quantity: <span class="quantity-label">${cartItem.quantity}</span> </span>
