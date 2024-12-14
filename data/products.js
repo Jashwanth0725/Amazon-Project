@@ -735,5 +735,6 @@ export const products = [
 });
 
 
-console.log(products);
-
+//console.log(products);
+const date = new Date();
+console.log(date.toLocaleDateString());

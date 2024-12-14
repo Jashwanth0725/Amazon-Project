@@ -5,6 +5,7 @@ import { delivery } from "../data/delivery.js";
 import dayjs from "https://unpkg.com/dayjs@1.11.10/esm/index.js";
 import "../data/cart-oops.js";
 import "../data/cart-class.js";
+import "../data/backend-practise.js"
 //Default Checkout Page of  Amazon
 genarate();
 
