@@ -1,14 +1,17 @@
-import { products } from "../data/products.js";
+import { products, loadProducts } from "../data/products.js";
 import { cart, quantitycounting, removeProductfromCart } from "../data/cart.js";
 import { money } from "../shared/utils.js";
 import { delivery } from "../data/delivery.js";
 import dayjs from "https://unpkg.com/dayjs@1.11.10/esm/index.js";
-import "../data/cart-oops.js";
-import "../data/cart-class.js";
-import "../data/backend-practise.js"
-//Default Checkout Page of  Amazon
-genarate();
+// import "../data/cart-oops.js";
+// import "../data/cart-class.js";
+// import "../data/backend-practise.js"
 
+//Default Checkout Page of  Amazon
+
+loadProducts(genarate);
+
+genarate();
 
 //to add the products from cart array to check out page
 function genarate() {
@@ -18,18 +21,16 @@ function genarate() {
         products.forEach((product) => {
 
             if (cartItem.id === product.id) {
-
                 let options;
                 delivery.forEach((option) => {
                     if (option.id === cartItem.deliveryId) {
                         options = option.days;
                     }
                 })
+
                 const today = dayjs();
                 const date = today.add(options, 'days');
                 const dateString = date.format('dddd, MMMM D');
-
-
 
                 chtml += `
                 <div class="cart-item-container js-cart-item-container-${product.id}">
@@ -50,7 +51,6 @@ function genarate() {
 
                             <div class="product-quantity">
                                 <span> Quantity: <span class="quantity-label">${cartItem.quantity}</span> </span>
-
 
                                 <span class="update-quantity-link link-primary">
                                 Update
@@ -73,10 +73,8 @@ function genarate() {
     })
     document.querySelector('.order-summary').innerHTML = chtml;
     priceSummary();
-    bind();
-
+    eventListener();
 }
-
 
 //to calculate the delivery date and generate html
 function deliveryHTML(productid, cartid) {
@@ -85,10 +83,7 @@ function deliveryHTML(productid, cartid) {
                             </div>`;
     const today = dayjs();
     delivery.forEach((del) => {
-
-
         const check = del.id === cartid ? 'checked' : '';
-
         const price = del.priceCents === 0 ? 'FREE' : `$${money(del.priceCents)} -`;
 
         generateHTML += `
@@ -107,7 +102,6 @@ function deliveryHTML(productid, cartid) {
         </div>
         `
     })
-
     return generateHTML;
 }
 
@@ -119,7 +113,6 @@ function checkoutHeader() {
 
 //to update the price details on right side
 function priceSummary() {
-
     let allPrice = 0;
     let shipping = 0;
     cart.forEach((cart) => {
@@ -173,7 +166,7 @@ function priceSummary() {
 
 
 //Every event listener in check out page
-function bind() {
+function eventListener() {
     //to remove a product element in cart array
     document.querySelectorAll('.delete-quantity-link').
         forEach((product) => {
@@ -188,7 +181,6 @@ function bind() {
                 genarate();
             })
         })
-
 
     // for changing date on delivery date on click
     document.querySelectorAll('.delivery-option')
@@ -218,8 +210,7 @@ function bind() {
                         document.querySelector(`.delivery-date-${cart.id}`).innerHTML = `Delivery date: ${dateString}`;
                     }
                 })
-                priceSummary()
-
+                priceSummary();
             })
         })
 }

@@ -1,10 +1,14 @@
-import { products } from "../data/products.js";
+import { products, loadProducts } from "../data/products.js";
 import { addProductToCart, quantitycounting } from "../data/cart.js";
-import { money } from "../shared/utils.js";
 
-let combHtml = ``;
-products.forEach((product) => {
-    combHtml += `
+loadProducts(renderProducts);
+
+
+function renderProducts() {
+
+    let combHtml = ``;
+    products.forEach((product) => {
+        combHtml += `
     <div class="product-container">
         <div class="product-image-container">
             <img
@@ -57,21 +61,20 @@ products.forEach((product) => {
         ${product.extraInfoHtml()}
         
     </div > `;
-});
-
-//Default first page of Amazon
-document.querySelector('.products').innerHTML = combHtml;
-document.querySelector('.cart-quantity').innerHTML = quantitycounting();
-
-
-
-document.querySelectorAll('.add-to-cart-button')
-    .forEach((button) => {
-        button.addEventListener('click', () => {
-            const productid = button.dataset.id;
-            addProductToCart(productid);  //in cart.js file
-            document.querySelector('.cart-quantity').innerHTML = quantitycounting();
-        });
-
     });
 
+    //Default first page of Amazon
+    document.querySelector('.products').innerHTML = combHtml;
+    document.querySelector('.cart-quantity').innerHTML = quantitycounting();
+
+
+    document.querySelectorAll('.add-to-cart-button')
+        .forEach((button) => {
+            button.addEventListener('click', () => {
+                const productid = button.dataset.id;
+                addProductToCart(productid);  //in cart.js file
+                document.querySelector('.cart-quantity').innerHTML = quantitycounting();
+            });
+
+        });
+}
