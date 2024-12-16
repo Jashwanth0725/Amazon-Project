@@ -9,18 +9,25 @@ import dayjs from "https://unpkg.com/dayjs@1.11.10/esm/index.js";
 
 //Default Checkout Page of  Amazon
 
+async function loadPage() {
 
-Promise.all([
-    loadProductsFetch()
-]).then(() => {
-    genarate();
-})
+    await loadProductsFetch();
+
+    await new Promise((resolve) => {
+        genarate();
+        resolve();
+    })
+}
+
+loadPage();
 
 
 
-
-
-genarate();
+// Promise.all([
+//     loadProductsFetch()
+// ]).then(() => {
+//     genarate();
+// })
 
 //to add the products from cart array to check out page
 function genarate() {
