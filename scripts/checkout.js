@@ -10,13 +10,17 @@ import dayjs from "https://unpkg.com/dayjs@1.11.10/esm/index.js";
 //Default Checkout Page of  Amazon
 
 async function loadPage() {
-
-    await loadProductsFetch();
-
-    await new Promise((resolve) => {
-        genarate();
-        resolve();
-    })
+    try {
+        await loadProductsFetch();
+        await new Promise((resolve, reject) => {
+            genarate();
+            resolve();
+            reject('Error');
+        })
+    }
+    catch (error) {
+        console.log(error);
+    }
 }
 
 loadPage();
