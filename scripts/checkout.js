@@ -9,7 +9,20 @@ import dayjs from "https://unpkg.com/dayjs@1.11.10/esm/index.js";
 
 //Default Checkout Page of  Amazon
 
-loadProducts(genarate);
+
+Promise.all([
+    new Promise((resolve) => {
+        loadProducts(() => {
+            resolve();
+        });
+    })
+]).then(() => {
+    genarate();
+})
+
+
+
+
 
 genarate();
 
@@ -214,5 +227,3 @@ function eventListener() {
             })
         })
 }
-
-
