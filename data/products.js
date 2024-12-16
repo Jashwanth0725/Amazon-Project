@@ -62,7 +62,6 @@ export function loadProductsFetch() {
       return new Product(productDetails);
     });
   }).catch((error) => {
-    alert("Something Went wrong please try again");
     console.log("Error loading products. Please try again");
   })
   return promise;

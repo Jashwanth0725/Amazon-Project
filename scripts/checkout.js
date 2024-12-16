@@ -1,8 +1,9 @@
 import { products, loadProductsFetch } from "../data/products.js";
-import { cart, quantitycounting, removeProductfromCart } from "../data/cart.js";
+import { cart, quantitycounting, removeProductfromCart, saveLocalStorage, removeLocalStorage } from "../data/cart.js";
 import { money } from "../shared/utils.js";
 import { delivery } from "../data/delivery.js";
 import dayjs from "https://unpkg.com/dayjs@1.11.10/esm/index.js";
+import { addOrder } from "../data/order.js";
 // import "../data/cart-oops.js";
 // import "../data/cart-class.js";
 // import "../data/backend-practise.js"
@@ -40,7 +41,7 @@ function genarate() {
     cart.forEach((cartItem) => {
         products.forEach((product) => {
 
-            if (cartItem.id === product.id) {
+            if (cartItem.productId === product.id) {
                 let options;
                 delivery.forEach((option) => {
                     if (option.id === cartItem.deliveryId) {
@@ -91,6 +92,7 @@ function genarate() {
             }
         })
     })
+
     document.querySelector('.order-summary').innerHTML = chtml;
     priceSummary();
     eventListener();
@@ -137,7 +139,7 @@ function priceSummary() {
     let shipping = 0;
     cart.forEach((cart) => {
         products.forEach((product) => {
-            if (cart.id === product.id) {
+            if (cart.productId === product.id) {
                 allPrice += product.priceCents * cart.quantity;
             }
         })
@@ -211,7 +213,7 @@ function eventListener() {
                 const productid = option.dataset.productid;
                 const deliveryid = option.dataset.deliveryid;
                 cart.forEach((cart) => {
-                    if (productid === cart.id) {
+                    if (productid === cart.productId) {
 
                         // adding updated delivery-id in cart
                         cart.deliveryId = parseInt(deliveryid);
@@ -233,4 +235,32 @@ function eventListener() {
                 priceSummary();
             })
         })
+
+    //for proceed payment
+    document.querySelector('.place-order-button').addEventListener('click', async () => {
+        console.log("clicked payment");
+        try {
+            const response = await fetch('https://supersimplebackend.dev/orders', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    cart: cart
+                })
+            });
+            const order = await response.json();
+            addOrder(order);
+            console.log('Order placed and id created');
+            // cart = [];
+            // removeLocalStorage();
+
+
+        } catch (error) {
+            console.log(error);
+            console.log('Something went wrong');
+        } finally {
+            window.location.href = 'orders.html';
+        }
+    });
 }
