@@ -1,4 +1,4 @@
-import { products, loadProducts } from "../data/products.js";
+import { products, loadProductsFetch } from "../data/products.js";
 import { cart, quantitycounting, removeProductfromCart } from "../data/cart.js";
 import { money } from "../shared/utils.js";
 import { delivery } from "../data/delivery.js";
@@ -11,11 +11,7 @@ import dayjs from "https://unpkg.com/dayjs@1.11.10/esm/index.js";
 
 
 Promise.all([
-    new Promise((resolve) => {
-        loadProducts(() => {
-            resolve();
-        });
-    })
+    loadProductsFetch()
 ]).then(() => {
     genarate();
 })

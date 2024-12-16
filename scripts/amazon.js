@@ -1,7 +1,9 @@
-import { products, loadProducts } from "../data/products.js";
+import { products, loadProductsFetch } from "../data/products.js";
 import { addProductToCart, quantitycounting } from "../data/cart.js";
 
-loadProducts(renderProducts);
+loadProductsFetch().then(() => {
+    renderProducts();
+});
 
 
 function renderProducts() {
